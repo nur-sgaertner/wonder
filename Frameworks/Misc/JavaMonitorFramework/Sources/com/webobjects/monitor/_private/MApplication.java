@@ -269,7 +269,7 @@ public class MApplication extends MObject {
         values = aDict.mutableClone();
     }
     
-    private static NSDictionary _defaults = new NSDictionary <Object, Object>(new Object[]{
+    private static NSDictionary<Object, Object> _defaults = new NSDictionary<>(new Object[]{
                                                                 Integer.valueOf(2001),
                                                                 Integer.valueOf(30),
                                                                 Boolean.TRUE,

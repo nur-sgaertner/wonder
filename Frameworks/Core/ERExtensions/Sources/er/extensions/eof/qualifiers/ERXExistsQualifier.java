@@ -68,7 +68,7 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
 	 */
 	static final Logger log = LoggerFactory.getLogger(ERXExistsQualifier.class);
 
-	private static final Pattern PATTERN = Pattern.compile("([ '\"\\(]|^)(t)([0-9])([ \\.'\"\\(]|$)");
+	private static final Pattern PATTERN = Pattern.compile("([ '\"\\(]|^)(t)([0-9])([ ,\\.'\"\\(]|$)");
 
 	public static final String EXISTS_ALIAS = "exists";
 	public static final boolean UseSQLInClause = true;
@@ -354,7 +354,7 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
             EOEntity entity = expression.entity();
             EORelationship rel;
             EOAttribute att;
-            NSMutableArray<EOProperty> path = new NSMutableArray<EOProperty>();
+            NSMutableArray<EOProperty> path = new NSMutableArray<>();
             int numPieces = pieces.count();
 
             if (numPieces == 1 && null == entity.anyRelationshipNamed(name)) {
