@@ -27,5 +27,6 @@ and limitations under the License.
 #define	HTTP_NOT_FOUND 404
 #define	HTTP_BAD_REQUEST 400
 #define	HTTP_SERVER_ERROR 500
+#define HTTP_SERVICE_UNAVAILABLE 503
 
 #endif

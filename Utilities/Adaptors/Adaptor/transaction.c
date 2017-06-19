@@ -753,13 +753,34 @@ static HTTPResponse *_errorResponse(WOAppReq *app, WOURLComponents *wc, HTTPRequ
     *	try to do the right thing...
     */
    if (redirect_url != NULL) {
-      resp = resp_redirectedResponse(redirect_url);
+      int fallback = 1;
+      char *file_url = calloc(strlen(app->docroot) + strlen(redirect_url) + 1, sizeof(*file_url));
+      if (file_url != NULL) {
+         strcpy(file_url, app->docroot);
+         strcat(file_url, redirect_url);
+         if (!access(file_url, R_OK)) {
+            FILE *fp = fopen(file_url, "r");
+            char *html = NULL;
+            size_t len;
+            ssize_t bytes_read = getdelim(&html, &len, '\0', fp);
+            fclose(fp);
+            if (bytes_read != -1) {
+               resp = resp_errorResponse(html, HTTP_SERVICE_UNAVAILABLE);
+               fallback = 0;
+            }
+            free(html);
+         }
+         free(file_url);
+      }
+      if (fallback) {
+         resp = resp_redirectedResponse(redirect_url);
+      }
    } else if (app->error == err_notFound) {
       if (ac_authorizeAppListing(wc))
          resp = WOAdaptorInfo(NULL, wc);
       else {
          resp = resp_errorResponse(NOT_FOUND_APP, HTTP_NOT_FOUND);
-         if (resp->statusMsg)	WOFREE(resp->statusMsg);
+         if (resp->statusMsg)   WOFREE(resp->statusMsg);
          resp->statusMsg = WOSTRDUP("File Not Found");
       }
    } else
