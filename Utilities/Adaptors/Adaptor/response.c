@@ -79,6 +79,11 @@ static const char errorRespTextEnd[] = "</strong></body></html>\n";
 
 HTTPResponse *resp_errorResponse(const char *msg, int status)
 {
+	return resp_errorResponseWrap(msg, status, 1);
+}
+
+HTTPResponse *resp_errorResponseWrap(const char *msg, int status, int wrap)
+{
    HTTPResponse *resp;
    char buf[12];
    String *html_msg;
@@ -88,9 +93,13 @@ HTTPResponse *resp_errorResponse(const char *msg, int status)
    resp->statusMsg = WOSTRDUP("Error WebObjects");
    resp->headers = st_new(2);
    st_add(resp->headers, CONTENT_TYPE, DEFAULT_CONTENT, 0);
-   html_msg = str_create(errorRespTextBegin, sizeof(errorRespTextBegin) + sizeof(errorRespTextEnd) + strlen(msg));
-   str_append(html_msg, msg);
-   str_append(html_msg, errorRespTextEnd);
+   if (wrap == 1) {
+      html_msg = str_create(errorRespTextBegin, sizeof(errorRespTextBegin) + sizeof(errorRespTextEnd) + strlen(msg));
+      str_append(html_msg, msg);
+      str_append(html_msg, errorRespTextEnd);
+   } else {
+      html_msg = str_create(msg, strlen(msg));
+   }
    resp->content_length = resp->content_valid = resp->content_read = html_msg->length;
    resp->content = html_msg->text;
    resp_addStringToResponse(resp, html_msg);

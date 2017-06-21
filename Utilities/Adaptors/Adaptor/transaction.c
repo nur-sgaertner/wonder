@@ -765,7 +765,7 @@ static HTTPResponse *_errorResponse(WOAppReq *app, WOURLComponents *wc, HTTPRequ
             ssize_t bytes_read = getdelim(&html, &len, '\0', fp);
             fclose(fp);
             if (bytes_read != -1) {
-               resp = resp_errorResponse(html, HTTP_SERVICE_UNAVAILABLE);
+               resp = resp_errorResponseWrap(html, HTTP_SERVICE_UNAVAILABLE, 0);
                fallback = 0;
             }
             free(html);

@@ -90,6 +90,7 @@ int resp_getResponseContent(HTTPResponse *resp, int allowStreaming);
  *	generate an error response 
  */
 HTTPResponse *resp_errorResponse(const char *msg, int status);
+HTTPResponse *resp_errorResponseWrap(const char *msg, int status, int wrap);
 
 /*
  *	generate a redirect to the given URL (mostly for fancy HTML messages)
