@@ -1,5 +1,7 @@
 package er.extensions.qualifiers;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.webobjects.eocontrol.EOKeyValueQualifier;
 import com.webobjects.eocontrol.EOQualifier;
 import com.webobjects.eocontrol.EOQualifierVariable;
@@ -40,6 +42,11 @@ public class ERXKeyValueQualifier extends EOKeyValueQualifier implements IERXCha
 		if (selector == null) {
 			throw new IllegalArgumentException("A KeyQualifierQualifier must have a selector.");
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(_key).append(_selector).append(_value).toHashCode();
 	}
 
 	public ERXAndQualifier and(EOQualifier... qualifiers) {

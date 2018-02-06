@@ -27,7 +27,12 @@ public class ERXOrQualifier extends EOOrQualifier implements IERXChainableQualif
 	public ERXOrQualifier(EOQualifier... qualifiers) {
 		super(new NSArray<>(qualifiers));
 	}
-	
+
+	@Override
+	public int hashCode() {
+		return qualifiers().hashCode();
+	}
+
 	public ERXAndQualifier and(EOQualifier... qualifiers) {
 		return ERXChainedQualifierUtils.and(this, qualifiers);
 	}

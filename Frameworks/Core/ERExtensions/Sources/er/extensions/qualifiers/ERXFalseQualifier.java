@@ -22,6 +22,16 @@ public class ERXFalseQualifier extends EOQualifier implements NSCoding, EOKeyVal
 	private static final long serialVersionUID = 1L;
 
 	@Override
+	public boolean equals(Object obj) {
+		return obj instanceof ERXFalseQualifier;
+	}
+
+	@Override
+	public int hashCode() {
+		return Boolean.FALSE.hashCode();
+	}
+
+	@Override
 	public void addQualifierKeysToSet(NSMutableSet keys) {
 	}
 

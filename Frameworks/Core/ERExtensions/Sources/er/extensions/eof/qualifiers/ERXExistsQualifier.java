@@ -11,6 +11,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,7 @@ import com.webobjects.eocontrol.EOFetchSpecification;
 import com.webobjects.eocontrol.EOKeyValueArchiver;
 import com.webobjects.eocontrol.EOKeyValueArchiving;
 import com.webobjects.eocontrol.EOKeyValueCodingAdditions;
+import com.webobjects.eocontrol.EOKeyValueQualifier;
 import com.webobjects.eocontrol.EOKeyValueUnarchiver;
 import com.webobjects.eocontrol.EOObjectStoreCoordinator;
 import com.webobjects.eocontrol.EOQualifier;
@@ -156,6 +159,20 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
     public String baseKeyPath() {
         return baseKeyPath;
     }
+
+	@Override
+	public boolean equals(Object obj) {
+		if ((obj instanceof ERXExistsQualifier)) {
+			ERXExistsQualifier other = (ERXExistsQualifier) obj;
+			return new EqualsBuilder().append(baseKeyPath, other.baseKeyPath).append(subqualifier, other.subqualifier).build();
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(baseKeyPath).append(subqualifier).toHashCode();
+	}
 
 	/**
 	 * Only used with qualifier keys which are not supported in this qualifier at this time. Does nothing.

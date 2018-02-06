@@ -1,5 +1,7 @@
 package er.extensions.qualifiers;
 
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
 import com.webobjects.eocontrol.EOKeyComparisonQualifier;
 import com.webobjects.eocontrol.EOQualifier;
 import com.webobjects.foundation.NSArray;
@@ -33,6 +35,11 @@ public class ERXKeyComparisonQualifier extends EOKeyComparisonQualifier implemen
 		if (selector == null) {
 			throw new IllegalArgumentException("A KeyComparisonQualifier must have a selector.");
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		return new HashCodeBuilder().append(leftKey()).append(selector()).append(rightKey()).toHashCode();
 	}
 
 	public ERXAndQualifier and(EOQualifier... qualifiers) {

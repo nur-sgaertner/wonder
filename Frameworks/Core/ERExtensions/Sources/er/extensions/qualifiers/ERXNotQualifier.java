@@ -24,6 +24,11 @@ public class ERXNotQualifier extends EONotQualifier implements IERXChainableQual
 		super(qualifier);
 	}
 
+	@Override
+	public int hashCode() {
+		return -qualifier().hashCode();
+	}
+
 	public ERXAndQualifier and(EOQualifier... qualifiers) {
 		return ERXChainedQualifierUtils.and(this, qualifiers);
 	}

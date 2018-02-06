@@ -28,6 +28,11 @@ public class ERXAndQualifier extends EOAndQualifier implements IERXChainableQual
 		super(new NSArray<>(qualifiers));
 	}
 
+	@Override
+	public int hashCode() {
+		return qualifiers().hashCode();
+	}
+
 	@SuppressWarnings("unchecked")
 	public ERXAndQualifier and(EOQualifier... qualifiers) {
 		NSMutableArray<EOQualifier> newQualifiers = qualifiers().mutableClone();
