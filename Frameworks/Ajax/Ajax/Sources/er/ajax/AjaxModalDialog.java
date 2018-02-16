@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import com.webobjects.appserver.WOActionResults;
 import com.webobjects.appserver.WOComponent;
 import com.webobjects.appserver.WOContext;
+import com.webobjects.appserver.WOMessage;
 import com.webobjects.appserver.WORequest;
 import com.webobjects.appserver.WOResponse;
 import com.webobjects.appserver._private.WOForm;
@@ -191,7 +192,7 @@ public class AjaxModalDialog extends AjaxComponent {
 	public static void open(WOContext context, String id) {
 		AjaxUtils.javascriptResponse(openDialogFunctionName(id) + "();", context);
 	}
-	
+
 	/**
 	 * Call this method to have a JavaScript response returned that opens the modal dialog.
 	 * The title of the dialog will be the passed title.  This is useful if the script to
@@ -202,9 +203,27 @@ public class AjaxModalDialog extends AjaxComponent {
 	 * @param title the title for the AjaxModalDialog
 	 */
 	public static void open(WOContext context, String id, String title) {
-		AjaxUtils.javascriptResponse(openDialogFunctionName(id) + "(" + AjaxValue.javaScriptEscaped(title) + ");", context);
+		open(context, id, title, true);
 	}
-	
+
+	/**
+	 * Call this method to have a JavaScript response returned that opens the modal dialog.
+	 * The title of the dialog will be the passed title.  This is useful if the script to
+	 * open this dialog was rendered without the title or with an incorrect title.
+	 *
+	 * @param context the current WOContext
+	 * @param id the HTML ID of the AjaxModalDialog to open
+	 * @param title the title for the AjaxModalDialog
+	 * @param escapeHtml true if title should be escaped
+	 */
+	public static void open(WOContext context, String id, String title, boolean escapeHtml) {
+		String titleValue = title;
+		if (escapeHtml) {
+			titleValue = WOMessage.stringByEscapingHTMLString(title);
+		}
+		AjaxUtils.javascriptResponse(openDialogFunctionName(id) + "(" + AjaxValue.javaScriptEscaped(titleValue) + ");", context);
+	}
+
 	/**
 	 * Returns the JavaScript function name for the function to open the AjaxModalDialog with
 	 * the specified ID.
@@ -237,6 +256,22 @@ public class AjaxModalDialog extends AjaxComponent {
 	 * @param title optional new title for the updated dialog
 	 */
 	public static void update(WOContext context, String title) {
+		update(context, title, true);
+	}
+
+	/**
+	 * Call this method to have a JavaScript response returned that updates the contents of the modal dialog.
+	 *
+	 * @param context the current WOContext
+	 * @param title optional new title for the updated dialog
+	 * @param escapeHtml true if title should be escaped
+	 */
+	public static void update(WOContext context, String title, boolean escapeHtml) {
+		String titleValue = title;
+		if (escapeHtml) {
+			titleValue = WOMessage.stringByEscapingHTMLString(title);
+		}
+
 		AjaxModalDialog currentDialog = currentDialog(context);
 		StringBuilder js = new StringBuilder(300);
 		js.append("Modalbox.show('");
@@ -245,7 +280,7 @@ public class AjaxModalDialog extends AjaxComponent {
 		
 		NSMutableDictionary options = currentDialog.createModalBoxOptions();
 		if (title != null) {
-			options.setObjectForKey(AjaxUtils.quote(title), "title");
+			options.setObjectForKey(AjaxUtils.quote(titleValue), "title");
 		}
 		AjaxOptions.appendToBuffer(options, js, context);
 		js.append(");\n");
@@ -353,7 +388,7 @@ public class AjaxModalDialog extends AjaxComponent {
 	}
 
 	/**
-	 * Only handle this phase if the modal box is open or it is our action (opening the box).  
+	 * Only handle this phase if the modal box is open or it is our action (opening the box).
 	 * Overridden to include result returned by action binding if bound.
 	 *
 	 * @see #close(WOContext)
@@ -363,7 +398,7 @@ public class AjaxModalDialog extends AjaxComponent {
 	@Override
 	public WOActionResults invokeAction(WORequest request, WOContext context) {
 		ajaxComponentActionUrl = AjaxUtils.ajaxComponentActionUrl(context());
-		pushDialog();		
+		pushDialog();
 		try {
 			WOActionResults result = null;
 			if (shouldHandleRequest(request, context)) {
