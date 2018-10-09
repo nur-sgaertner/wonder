@@ -104,7 +104,7 @@ HTTPResponse *resp_errorResponseWrap(const char *msg, int status, int wrap)
    resp->content = html_msg->text;
    resp_addStringToResponse(resp, html_msg);
    resp->flags |= RESP_DONT_FREE_CONTENT;
-   sprintf(buf, "%lu", resp->content_length);
+   sprintf(buf, "%llu", resp->content_length);
    st_add(resp->headers, CONTENT_LENGTH, buf, STR_COPYVALUE|STR_FREEVALUE);
    return resp;
 }
@@ -183,8 +183,8 @@ void resp_addHeader(HTTPResponse *resp, String *rawhdr)
       // 2009/06/10: an explicit content-length value is available.
       //             Update response flag information:
       resp->flags |= RESP_LENGTH_EXPLICIT;
-      resp->content_length = atol(value);
-      WOLog(WO_INFO, "content-length was set expl.: %lu", resp->content_length);
+      resp->content_length = atoll(value);
+      WOLog(WO_INFO, "content-length was set expl.: %llu", resp->content_length);
    }
 
    if (((strcasecmp(CONTENT_TYPE,key) == 0) || strcasecmp("content_type", key) == 0))
@@ -236,15 +236,9 @@ HTTPResponse *resp_getResponseHeaders(WOConnection *instanceConnection, WOInstan
          // 2009/06/10: no content-length defined.  To be able to process the
          //             request although, we set the maximum allowed value and close
          //             the client socket communication if the end-of-response-
-         //             stream was reached.  The maximum allowed value is UINT_MAX,
-         //             because resp->content_length is defined as "unsigned".
-         //             But the function used to convert a content-length string
-         //             returns an int and assignments like
-         //                 int value = resp->content_length;
-         //             can be found in the adaptor source code.  Therefore, we
-         //             should better use INT_MAX!
-         resp->content_length = INT_MAX;
-         WOLog(WO_WARN, "Response doesn't specify a content-length: assuming %lu bytes!",
+         //             stream was reached.  The maximum allowed value is LLONG_MAX.
+         resp->content_length = LLONG_MAX;
+         WOLog(WO_WARN, "Response doesn't specify a content-length: assuming %llu bytes!",
                resp->content_length);
       }
    }
@@ -263,7 +257,7 @@ int resp_getResponseContent(HTTPResponse *resp, int allowStreaming)
 {
    int ret = 0;
    if (resp->content_length) {
-      long count, amountToRead;
+      long long count, amountToRead;
 
       if (resp->content == NULL)
       {
