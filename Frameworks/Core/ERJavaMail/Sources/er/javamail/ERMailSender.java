@@ -411,6 +411,7 @@ public class ERMailSender implements Runnable {
 							return;
 						} else {
 							log.error("General mail error.", e);
+							return;
 						}
 					}
 					finally {
