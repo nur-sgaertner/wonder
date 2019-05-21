@@ -431,8 +431,10 @@ public class ERMailSender implements Runnable {
 			log.warn("ERMailSender thread has been interrupted.");
 			//return;
 		}
-		// assures the thread will get restarted next time around.
-		_senderThread = null;
+		finally {
+			// assures the thread will get restarted next time around.
+			_senderThread = null;
+		}
 	}
 
 	public ERQueue<ERMessage> messages() {
