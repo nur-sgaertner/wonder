@@ -257,22 +257,6 @@ public class ERXJDBCConnectionBroker implements ERXJDBCAdaptor.ConnectionBroker 
                     }
                 }
             }        
-
-            /**
-             * Less safe shutdown. Uses default timeout value. This method simply
-             * calls the <code>destroy()</code> method with a <code>millis</code>
-             * value of 10000 (10 seconds) and ignores <code>SQLException</code>
-             * thrown by that method.
-             * 
-             * @see #destroy(int)
-             */
-            @Override
-            public void destroy() {
-                try {
-                    ERXJDBCConnectionBroker.this.destroy(10000);
-                } catch (SQLException e) {
-                }
-            }
         };
 
         pinger = new Thread(new Runnable() {
@@ -422,7 +406,9 @@ public class ERXJDBCConnectionBroker implements ERXJDBCAdaptor.ConnectionBroker 
         }
     }
 
-    private void destroy(int millis) throws SQLException {
+    // This method was changed to public to preserve it for later
+    // usage. It was formerly called from broken reaper.destroy().
+    public void destroy(int millis) throws SQLException {
 
         active = false;
 
