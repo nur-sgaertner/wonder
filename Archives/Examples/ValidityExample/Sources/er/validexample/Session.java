@@ -6,7 +6,7 @@ package er.validexample;
 // Created by msacket on Mon Jun 11 2001
 //
 
-import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.lang3.CharEncoding;
 
 import com.webobjects.appserver.WOContext;
 import com.webobjects.appserver.WORequest;

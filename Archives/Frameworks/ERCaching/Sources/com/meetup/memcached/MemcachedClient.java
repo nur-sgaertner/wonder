@@ -24,7 +24,7 @@ import java.nio.channels.*;
 import java.io.*;
 import java.net.URLEncoder;
 
-import org.apache.commons.lang.CharEncoding;
+import org.apache.commons.lang3.CharEncoding;
 import org.apache.log4j.Logger;
 
 /**
