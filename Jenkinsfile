@@ -1,13 +1,18 @@
 pipeline {
     agent { label 'wonder' }
+
     stages {
         stage('SetupWorkspace') {
             environment {
-                DEPS = "${env.JENKINS_HOME}/Dependencies"
+                DEPS = "${env.WORKSPACE}/Dependencies"
                 WO_VERSION = '54'
                 ROOT = "${env.WORKSPACE}/Root"
             }
             steps {
+                // Install and extract dependencies
+                copyArtifacts projectName: '/Libraries/WebObjects/WebObjects-Dependencies/master', target: DEPS
+                sh "tar -xzf ${DEPS}/WebObjects${WO_VERSION}.tar.gz -C ${DEPS}"
+
                 // Make sure the Libraries folder exists
                 sh "mkdir -p ${env.WORKSPACE}/Libraries"
 
@@ -41,7 +46,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withAnt(installation: 'Auto ant') {
+                withAnt(installation: '1.9.5') {
                     sh "ant -propertyfile ${env.WORKSPACE}/Root/wolips.properties -lib ${env.WORKSPACE}/Root/lib -Ddeployment.standalone=true clean docs-clean frameworks deployment.tools docs"
                 }
             }
@@ -77,7 +82,7 @@ pipeline {
     }
 
     post {
-        always {
+        success {
             archiveArtifacts artifacts: 'dist/*.tar.gz'
             step $class: 'JavadocArchiver', javadocDir: 'dist/wonder/Documentation/api', keepAll: false
             recordIssues tools: [java(), taskScanner(includePattern: '**/*.java', highTags: 'FIXME', normalTags: 'TODO', lowTags: '@Deprecated')]
