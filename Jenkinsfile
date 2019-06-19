@@ -1,46 +1,13 @@
+@Library('NUREG') _
+
 pipeline {
     agent { label 'wonder' }
 
     stages {
         stage('SetupWorkspace') {
-            environment {
-                DEPS = "${env.WORKSPACE}/Dependencies"
-                WO_VERSION = '54'
-                ROOT = "${env.WORKSPACE}/Root"
-            }
             steps {
-                // Install and extract dependencies
-                copyArtifacts projectName: '/Libraries/WebObjects/WebObjects-Dependencies/master', target: DEPS
-                sh "tar -xzf ${DEPS}/WebObjects${WO_VERSION}.tar.gz -C ${DEPS}"
-
-                // Make sure the Libraries folder exists
-                sh "mkdir -p ${env.WORKSPACE}/Libraries"
-
-                // Setup System and Library
-                sh "mkdir -p ${ROOT}/lib"
-                sh "cp ${DEPS}/woproject.jar ${ROOT}/lib"
-                sh "mkdir -p ${ROOT}/Library/Frameworks"
-                sh "mkdir -p ${ROOT}/Library/WebObjects/Extensions"
-                sh "mkdir -p ${ROOT}/Network/Library/Frameworks"
-                sh "mkdir -p ${ROOT}/User/Library/Frameworks"
-                sh "ln -sf ${DEPS}/WebObjects${WO_VERSION}/System ${ROOT}/System"
-
-                // Setup wolips.properties
-                writeFile file: "${ROOT}/wolips.properties", text: """
-                    wo.system.root=${ROOT}/System
-                    wo.user.frameworks=${ROOT}/User/Library/Frameworks
-                    wo.system.frameworks=${ROOT}/System/Library/Frameworks
-                    wo.bootstrapjar=${ROOT}/System/Library/WebObjects/JavaApplications/wotaskd.woa/WOBootstrap.jar
-                    wo.network.frameworks=${ROOT}/Network/Library/Frameworks
-                    wo.api.root=/Developer/ADC%20Reference%20Library/documentation/WebObjects/Reference/API/
-                    wo.network.root=${ROOT}/Network
-                    wo.extensions=${ROOT}/Library/WebObjects/Extensions
-                    wo.user.root=${ROOT}/User
-                    wo.local.frameworks=${ROOT}/Library/Frameworks
-                    wo.apps.root=${ROOT}/Library/WebObjects/Applications
-                    wo.local.root=${ROOT}
-                    wo.external.root=${env.WORKSPACE}/ExternalRoot
-                """.stripIndent().trim() + "\n"
+                woCreateLibraryFolders(env.WORKSPACE)
+                woCreateWoLipsProperties(env.WORKSPACE, true)
             }
         }
 
