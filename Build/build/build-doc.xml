@@ -25,6 +25,8 @@
     <property name="wo.local.frameworks" value="${wo.local.root}/Library/Frameworks" />
     <property name="build.classes" value="${build.root}/classes/${project.name}" />
 
+    <available classname="com.sun.tools.doclets.Taglet" property="old.taglets.available" />
+
     <tstamp>
         <format property="current.year" pattern="yyyy"/>
     </tstamp>
@@ -88,7 +90,7 @@
     <!-- ==================================================== -->
     <!-- Compile Classes Used To Build Documentation.         -->
     <!-- ==================================================== -->
-    <target name="build">
+    <target name="build" if="old.taglets.available">
         <!-- First, copy needed jar files -->
         <copy todir="${build.root}/Build/lib">
             <fileset dir="Build/lib">
