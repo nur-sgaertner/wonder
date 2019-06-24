@@ -53,8 +53,10 @@ pipeline {
 
     post {
         success {
-            archiveArtifacts artifacts: 'dist/*.tar.gz'
-            step $class: 'JavadocArchiver', javadocDir: 'dist/wonder/Documentation/api', keepAll: false
+            dir('dist') {
+                archiveArtifacts artifacts: '*.tar.gz'
+                step $class: 'JavadocArchiver', javadocDir: 'wonder/Documentation/api', keepAll: false
+            }
             recordIssues tools: [java(), taskScanner(includePattern: '**/*.java', excludePattern: 'Dependencies/**', highTags: 'FIXME', normalTags: 'TODO', lowTags: '@Deprecated')]
         }
     }
