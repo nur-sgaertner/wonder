@@ -6,6 +6,9 @@ pipeline {
     stages {
         stage('SetupWorkspace') {
             steps {
+                script {
+                    properties([copyArtifactPermission('*')])
+                }
                 woCreateLibraryFolders(env.WORKSPACE)
                 woCreateWoLipsProperties(env.WORKSPACE, true)
             }
