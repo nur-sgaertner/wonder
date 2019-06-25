@@ -1,7 +1,7 @@
 @Library('NUREG') _
 
 pipeline {
-    agent { label 'wonder' }
+    agent { label 'linux && jdk' }
 
     stages {
         stage('SetupWorkspace') {
