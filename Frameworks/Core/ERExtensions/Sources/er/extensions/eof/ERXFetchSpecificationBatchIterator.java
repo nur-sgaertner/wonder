@@ -197,8 +197,6 @@ public class ERXFetchSpecificationBatchIterator<E> implements Iterator<E>, Enume
     public void setBatchSize(int batchSize) {
         if (batchSize <= 0)
             throw new RuntimeException("Attempting to set a batch size of negative value.");
-        if (batchSize > DefaultBatchSize)
-            log.warn("Batches larger than the the default batch size of {} might cause JDBC issues.", DefaultBatchSize);
         this.batchSize = batchSize;
     }
 
