@@ -39,6 +39,14 @@ public class ERXConsoleAppender extends ConsoleAppender {
 
 	@Override
 	protected void subAppend(LoggingEvent event) {
+		subAppendInner(event);
+
+		if (immediateFlush) {
+			qw.flush();
+		}
+	}
+
+	protected void subAppendInner(LoggingEvent event) {
 		qw.write(super.layout.format(event));
 
 		if (super.layout.ignoresThrowable()) {
@@ -61,10 +69,6 @@ public class ERXConsoleAppender extends ConsoleAppender {
 					}
 				}
 			}
-		}
-
-		if (immediateFlush) {
-			qw.flush();
 		}
 	}
 }
