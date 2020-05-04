@@ -1381,10 +1381,7 @@ public class ERXSQLHelper {
 					for (int i = 0; i < length; i++) {
 						ch = nextLine.charAt(i);
 						// Determine if we are in a quoted string, but ignore escaped apostrophes, e.g. 'Mike\'s Code' 
-						if (inQuotes && ch == '\\') {
-							i++;
-						}
-						else if (ch == '\'') {
+						if (ch == '\'' && prev != '\\') {
 							inQuotes = !inQuotes;
 						}
 						else if (ch == '-' && prev == '-' && !inQuotes) {
