@@ -741,12 +741,18 @@ public class ERXEOControlUtilities {
      * @param qualifier to find the matching objects
      * @param attributeName name of attribute in same entity to consider in order to determine uniqueness
      * @return number of matching objects
+     * @deprecated Use {@link #objectCountUniqueWithQualifierAndAttribute(EOEditingContext, String, EOQualifier, IERXKey)} instead
      */
+    @Deprecated
     public static Integer objectCountUniqueWithQualifierAndAttribute(EOEditingContext ec, String entityName, EOQualifier qualifier, String attributeName) {
         EOEntity entity = EOUtilities.entityNamed(ec, entityName);
         EOAttribute attribute = entity.attributeNamed(attributeName);
         EOAttribute aggregateAttribute = EOEnterpriseObjectClazz.objectCountUniqueAttribute(attribute);
         return (Integer)_aggregateFunctionWithQualifierAndAggregateAttribute(ec, entityName, qualifier, aggregateAttribute);
+    }
+
+    public static Integer objectCountUniqueWithQualifierAndAttribute(EOEditingContext ec, String entityName, EOQualifier qualifier, IERXKey<?> attributeKey) {
+    	return objectCountUniqueWithQualifierAndAttribute(ec, entityName, qualifier, attributeKey.key());
     }
 
 	/**
