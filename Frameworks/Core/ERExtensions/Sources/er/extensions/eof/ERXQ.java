@@ -107,7 +107,7 @@ public class ERXQ {
 	 */
 	@SuppressWarnings( { "cast", "unchecked" })
 	public static <T> NSArray<T> filtered(NSArray<T> array, EOQualifier qualifier) {
-		return (NSArray<T>) EOQualifier.filteredArrayWithQualifier(array, qualifier);
+		return EOQualifier.filteredArrayWithQualifier(array, qualifier);
 	}
 
 	/**
