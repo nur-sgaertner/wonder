@@ -358,8 +358,8 @@ public class ERXQuery {
 			if (obj instanceof String) {
 				String key = (String) obj;
 				fetchKeys.add(key);
-			} else if (obj instanceof ERXKey<?>) {
-				ERXKey<?> erxKey = (ERXKey<?>) obj;
+			} else if (obj instanceof IERXKey<?>) {
+				IERXKey<?> erxKey = (IERXKey<?>) obj;
 				String key = erxKey.key();
 				fetchKeys.add(key);
 			} else if (obj instanceof EOAttribute) {
@@ -449,8 +449,8 @@ public class ERXQuery {
 			if (obj instanceof String) {
 				String key = (String) obj;
 				groupingKeys.add(key);
-			} else if (obj instanceof ERXKey<?>) {
-				ERXKey<?> erxKey = (ERXKey<?>) obj;
+			} else if (obj instanceof IERXKey<?>) {
+				IERXKey<?> erxKey = (IERXKey<?>) obj;
 				String key = erxKey.key();
 				groupingKeys.add(key);
 			} else if (obj instanceof EOAttribute) {

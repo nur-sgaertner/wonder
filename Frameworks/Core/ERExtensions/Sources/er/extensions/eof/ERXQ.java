@@ -360,7 +360,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public static <T> ERXKeyComparisonQualifier equals(ERXKey<T> key, ERXKey<T> value) {
+	public static <T> ERXKeyComparisonQualifier equals(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.EQ, value.key());
 	}
 	
@@ -499,7 +499,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public static <T >ERXKeyComparisonQualifier notEquals(ERXKey<T> key, ERXKey<T> value) {
+	public static <T >ERXKeyComparisonQualifier notEquals(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.NE, value.key());
 	}
 	
@@ -527,7 +527,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */	
-	public static <T> ERXKeyComparisonQualifier lessThan(ERXKey<T> key, ERXKey<T> value) {
+	public static <T> ERXKeyComparisonQualifier lessThan(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.LT, value.key());
 	}
 
@@ -555,7 +555,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public static <T> ERXKeyComparisonQualifier greaterThan(ERXKey<T> key, ERXKey<T> value) {
+	public static <T> ERXKeyComparisonQualifier greaterThan(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.GT, value.key());
 	}
 	
@@ -583,7 +583,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public static <T> ERXKeyComparisonQualifier lessThanOrEqualTo(ERXKey<T> key, ERXKey<T> value) {
+	public static <T> ERXKeyComparisonQualifier lessThanOrEqualTo(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.LTEQ, value.key());
 	}
 
@@ -611,7 +611,7 @@ public class ERXQ {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public static <T> ERXKeyComparisonQualifier greaterThanOrEqualTo(ERXKey<T> key, ERXKey<T> value) {
+	public static <T> ERXKeyComparisonQualifier greaterThanOrEqualTo(IERXKey<T> key, IERXKey<T> value) {
 		return new ERXKeyComparisonQualifier(key.key(), ERXQ.GTEQ, value.key());
 	}
 

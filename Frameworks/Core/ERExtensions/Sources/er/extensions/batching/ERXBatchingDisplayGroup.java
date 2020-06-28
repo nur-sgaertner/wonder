@@ -19,7 +19,7 @@ import er.extensions.appserver.ERXDisplayGroup;
 import er.extensions.eof.ERXBatchFetchUtilities;
 import er.extensions.eof.ERXEOAccessUtilities;
 import er.extensions.eof.ERXEOControlUtilities;
-import er.extensions.eof.ERXKey;
+import er.extensions.eof.IERXKey;
 import er.extensions.foundation.ERXArrayUtilities;
 import er.extensions.qualifiers.ERXAndQualifier;
 
@@ -290,9 +290,9 @@ public class ERXBatchingDisplayGroup<T> extends ERXDisplayGroup<T> {
 	 * 
 	 * @param prefetchingRelationshipKeyPaths the prefetching key paths to override those in the underlying fetch spec
 	 */
-	public void setPrefetchingRelationshipKeyPaths(ERXKey<?>... prefetchingRelationshipKeyPaths) {
+	public void setPrefetchingRelationshipKeyPaths(IERXKey<?>... prefetchingRelationshipKeyPaths) {
 		NSMutableArray<String> keypaths = new NSMutableArray<>();
-    	for (ERXKey<?> key : prefetchingRelationshipKeyPaths) {
+    	for (IERXKey<?> key : prefetchingRelationshipKeyPaths) {
     		keypaths.addObject(key.key());
     	}
 		_prefetchingRelationshipKeyPaths = keypaths.immutableClone();

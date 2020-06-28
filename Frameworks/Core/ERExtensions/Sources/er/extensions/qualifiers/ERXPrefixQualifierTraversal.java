@@ -10,7 +10,7 @@ import com.webobjects.eocontrol.EOQualifierEvaluation;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSRange;
 
-import er.extensions.eof.ERXKey;
+import er.extensions.eof.IERXKey;
 import er.extensions.eof.qualifiers.ERXExistsQualifier;
 
 /**
@@ -25,7 +25,7 @@ public class ERXPrefixQualifierTraversal extends ERXQualifierTraversal {
 	private String _prefix;
 	private NSMutableArray<EOQualifier> _qualifiers;
 
-	protected ERXPrefixQualifierTraversal(ERXKey prefix) {
+	protected ERXPrefixQualifierTraversal(IERXKey<?> prefix) {
 		_prefix = prefix.key() + ".";
 	}
 
@@ -39,7 +39,7 @@ public class ERXPrefixQualifierTraversal extends ERXQualifierTraversal {
 	 *            the key to prepend
 	 * @return a new matching qualifier with the prefix prepended
 	 */
-	public static synchronized EOQualifier prefixQualifierWithKey(EOQualifierEvaluation qualifier, ERXKey prefix) {
+	public static synchronized EOQualifier prefixQualifierWithKey(EOQualifierEvaluation qualifier, IERXKey<?> prefix) {
 		ERXPrefixQualifierTraversal prefixTraversal = new ERXPrefixQualifierTraversal(prefix);
 		prefixTraversal.traverse(qualifier, true);
 		EOQualifier prefixedQualifier = prefixTraversal._qualifiers.lastObject();

@@ -193,9 +193,9 @@ public class ERXFetchSpecification<T extends EOEnterpriseObject> extends EOFetch
 	 * @see #setPrefetchingRelationshipKeyPaths(NSArray)
 	 * @param prefetchingRelationshipKeyPaths list of keys to prefetch
 	 */
-	public void setPrefetchingRelationshipKeyPaths(ERXKey<?>... prefetchingRelationshipKeyPaths) {
+	public void setPrefetchingRelationshipKeyPaths(IERXKey<?>... prefetchingRelationshipKeyPaths) {
 		NSMutableArray<String> keypaths = new NSMutableArray<>();
-		for (ERXKey<?> key : prefetchingRelationshipKeyPaths) {
+		for (IERXKey<?> key : prefetchingRelationshipKeyPaths) {
 			keypaths.addObject(key.key());
 		}
 		setPrefetchingRelationshipKeyPaths(keypaths);

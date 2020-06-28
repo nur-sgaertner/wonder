@@ -134,7 +134,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 * @param key
 	 */
 	@SuppressWarnings("unchecked")
-	public final <T> T valueForKey(ERXKey<T> key) {
+	public final <T> T valueForKey(IERXKey<T> key) {
 		return (T)valueForKeyPath(key.key());
 	}
 
@@ -144,7 +144,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 * @param value
 	 * @param key
 	 */
-	public final <T> void takeValueForKey(Object value, ERXKey<T> key) {
+	public final <T> void takeValueForKey(Object value, IERXKey<T> key) {
 		takeValueForKeyPath(value, key.key());
 	}
 	
@@ -823,7 +823,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 * @param key The key that you wish to get its value from the committed snapshot
 	 * @return the committed value
 	 */
-	public <T> T committedSnapshotValueForKey(ERXKey<T> key) {
+	public <T> T committedSnapshotValueForKey(IERXKey<T> key) {
 		return (T) committedSnapshotValueForKey(key.key());
 	}
 
@@ -880,7 +880,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 * @param key The key that you wish to check has changed from the committed snapshot
 	 * @return true if it has changed
 	 */
-	public <T> boolean hasKeyChangedFromCommittedSnapshot(ERXKey<T> key) {
+	public <T> boolean hasKeyChangedFromCommittedSnapshot(IERXKey<T> key) {
 		return hasKeyChangedFromCommittedSnapshot(key.key());
 	}
 
@@ -905,7 +905,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 *            STATUS.PENDING_STATUS
 	 * @return true if the specified key value has changed from the specified value
 	 */
-	public <T> boolean hasKeyChangedFromCommittedSnapshotFromValue(ERXKey<T> key, T oldValue) {
+	public <T> boolean hasKeyChangedFromCommittedSnapshotFromValue(IERXKey<T> key, T oldValue) {
 		return hasKeyChangedFromCommittedSnapshotFromValue(key.key(), oldValue);
 	}
 
@@ -932,7 +932,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 *            STATUS.PENDING_STATUS to STATUS.CONFIRMED_STATUS
 	 * @return true if the specified key value has changed from the specified value
 	 */
-	public <T> boolean hasKeyChangedFromCommittedSnapshotFromValueToNewValue(ERXKey<T> key, T oldValue, T newValue) {
+	public <T> boolean hasKeyChangedFromCommittedSnapshotFromValueToNewValue(IERXKey<T> key, T oldValue, T newValue) {
 		return hasKeyChangedFromCommittedSnapshotFromValueToNewValue(key.key(), oldValue, newValue);
 	}
 
@@ -957,7 +957,7 @@ public class ERXGenericRecord extends EOGenericRecord implements ERXGuardedObjec
 	 *            STATUS.CANCELLED_STATUS
 	 * @return true if the specified key value has changed to the specified value
 	 */
-	public <T> boolean hasKeyChangedFromCommittedSnapshotToValue(ERXKey<T> key, T newValue) {
+	public <T> boolean hasKeyChangedFromCommittedSnapshotToValue(IERXKey<T> key, T newValue) {
 		return hasKeyChangedFromCommittedSnapshotToValue(key.key(), newValue);
 	}
 

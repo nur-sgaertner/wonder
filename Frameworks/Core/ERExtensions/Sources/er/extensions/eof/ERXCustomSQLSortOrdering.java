@@ -19,11 +19,11 @@ public abstract class ERXCustomSQLSortOrdering extends ERXSortOrdering {
 	 * Creates a new instance.
 	 *
 	 * @param key
-	 *            the {@link ERXKey}
+	 *            the {@link IERXKey}
 	 * @param selector
 	 *            the {@link NSSelector}
 	 */
-	public ERXCustomSQLSortOrdering(ERXKey key, NSSelector selector) {
+	public ERXCustomSQLSortOrdering(IERXKey key, NSSelector selector) {
 		super(key, selector);
 	}
 

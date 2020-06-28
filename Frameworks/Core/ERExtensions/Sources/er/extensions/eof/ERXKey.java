@@ -48,7 +48,7 @@ import er.extensions.qualifiers.ERXTrueQualifier;
  * 
  * @author mschrag
  */
-public class ERXKey<T> {
+public class ERXKey<T> implements IERXKey<T> {
 	/* Constants for known NSArray keypath operators */
 	private static final ERXKey<BigDecimal> AVG = new ERXKey<BigDecimal>("@avg");
 	private static final ERXKey<BigDecimal> SUM = new ERXKey<BigDecimal>("@sum");
@@ -89,7 +89,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.AvgNonNullOperator
 	 *      AvgNonNullOperator
 	 */
-	public static ERXKey<BigDecimal> avgNonNull(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> avgNonNull(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>) avgNonNull().append(key);
 	}
 	
@@ -164,7 +164,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.FetchSpecOperator
 	 *      FetchSpecOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> fetchSpec(String fetchSpecName, ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> fetchSpec(String fetchSpecName, IERXKey<U> key) {
 		return FETCH_SPEC.append(fetchSpecName).appendAsArray(key);
 	}
 	
@@ -282,7 +282,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.FlattenOperator
 	 *      FlattenOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> flatten(ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> flatten(IERXKey<U> key) {
 		return FLATTEN.appendAsArray(key);
 	}
 
@@ -411,7 +411,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.LimitOperator
 	 *      LimitOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> limit(Integer limit, ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> limit(Integer limit, IERXKey<U> key) {
 		return LIMIT.append(limit.toString()).appendAsArray(key);
 	}
 	
@@ -522,7 +522,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.MedianOperator
 	 *      MedianOperator
 	 */
-	public static ERXKey<BigDecimal> median(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> median(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>) MEDIAN.append(key);
 	}
 	
@@ -569,7 +569,7 @@ public class ERXKey<T> {
 	 * 
 	 * @see er.extensions.foundation.ERXArrayUtilities.ObjectAtIndexOperator ObjectAtIndexOperator
 	 */
-	public static <U> ERXKey<U> objectAtIndex(Integer index, ERXKey<U> key) {
+	public static <U> ERXKey<U> objectAtIndex(Integer index, IERXKey<U> key) {
 		return OBJECT_AT_INDEX.append(index.toString()).append(key);
 	}
 	
@@ -629,7 +629,7 @@ public class ERXKey<T> {
 	 * 
 	 * @see er.extensions.foundation.ERXArrayUtilities.RemoveNullValuesOperator RemoveNullValuesOperator
 	 */
-	public static <U> ERXKey<U> removeNullValues(ERXKey<U> key) {
+	public static <U> ERXKey<U> removeNullValues(IERXKey<U> key) {
 		return REMOVE_NULL_VALUES.append(key);
 	}
 
@@ -684,7 +684,7 @@ public class ERXKey<T> {
 	 * 
 	 * @see er.extensions.foundation.ERXArrayUtilities.ReverseOperator ReverseOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> reverse(ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> reverse(IERXKey<U> key) {
 		return REVERSE.appendAsArray(key);
 	}
 
@@ -912,7 +912,7 @@ public class ERXKey<T> {
 	 * 
 	 * @see er.extensions.foundation.ERXArrayUtilities.SubarrayWithRangeOperator SubarrayWithRangeOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> subarrayWithRange(NSRange range, ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> subarrayWithRange(NSRange range, IERXKey<U> key) {
 		return SUBARRAY_WITH_RANGE.append(range.location() + "-" + range.length()).appendAsArray(key);
 	}
 	
@@ -989,7 +989,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.FlattenOperator
 	 *      FlattenOperator
 	 */
-	public static <U> ERXKey<NSArray<U>> unique(ERXKey<U> key) {
+	public static <U> ERXKey<NSArray<U>> unique(IERXKey<U> key) {
 		return UNIQUE.appendAsArray(key);
 	}
 
@@ -1066,7 +1066,7 @@ public class ERXKey<T> {
 	 * @return an {@code ERXKey<BigDecimal>} wrapping the {@code @sum.key}
 	 *         keypath
 	 */
-	public static ERXKey<BigDecimal> sum(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> sum(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>) SUM.append(key);
 	}
 	
@@ -1145,7 +1145,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.StandardDeviationOperator
 	 *      StandardDeviationOperator
 	 */
-	public static ERXKey<BigDecimal> popStdDev(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> popStdDev(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>) popStdDev().append(key);
 	}
 	
@@ -1207,7 +1207,7 @@ public class ERXKey<T> {
 	 * @see er.extensions.foundation.ERXArrayUtilities.StandardDeviationOperator
 	 *      StandardDeviationOperator
 	 */
-	public static ERXKey<BigDecimal> stdDev(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> stdDev(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>)stdDev().append(key);
 	}
 	
@@ -1239,7 +1239,7 @@ public class ERXKey<T> {
 	 * @return an {@code ERXKey<BigDecimal>} wrapping the {@code @avg.key}
 	 *         keypath
 	 */
-	public static ERXKey<BigDecimal> avg(ERXKey<?> key) {
+	public static ERXKey<BigDecimal> avg(IERXKey<?> key) {
 		return (ERXKey<BigDecimal>) AVG.append(key);
 	}
 	
@@ -1291,7 +1291,7 @@ public class ERXKey<T> {
 	 * @return an {@code ERXKey<BigDecimal>} wrapping the {@code @min.key}
 	 *         keypath
 	 */
-	public static <U> ERXKey<U> min(ERXKey<U> key) {
+	public static <U> ERXKey<U> min(IERXKey<U> key) {
 		return MIN.append(key);
 	}
 	
@@ -1352,7 +1352,7 @@ public class ERXKey<T> {
 	 * @return an {@code ERXKey<U>} wrapping the {@code @max.key}
 	 *         keypath
 	 */
-	public static <U> ERXKey<U> max(ERXKey<U> key) {
+	public static <U> ERXKey<U> max(IERXKey<U> key) {
 		return MAX.append(key);
 	}
 	
@@ -1525,9 +1525,9 @@ public class ERXKey<T> {
 	}
 	
 	public interface ValueCoding {
-		public <T> T valueForKey(ERXKey<T> key);
+		public <T> T valueForKey(IERXKey<T> key);
 
-		public <T> void takeValueForKey(Object value, ERXKey<T> key);
+		public <T> void takeValueForKey(Object value, IERXKey<T> key);
 	}
 
 	private String _key;
@@ -1675,6 +1675,7 @@ public class ERXKey<T> {
 	 * 
 	 * @return the keypath that this ERXKey represents
 	 */
+	@Override
 	public String key() {
 		return _key;
 	}
@@ -1757,7 +1758,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier is(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier is(IERXKey<T> value) {
 		return ERXQ.equals(this, value);
 	}
 
@@ -1782,7 +1783,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier eq(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier eq(IERXKey<T> value) {
 		return ERXQ.equals(this, value);
 	}
 
@@ -1806,7 +1807,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier isNot(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier isNot(IERXKey<T> value) {
 		return ERXQ.notEquals(this, value);
 	}
 
@@ -1830,7 +1831,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier ne(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier ne(IERXKey<T> value) {
 		return ERXQ.notEquals(this, value);
 	}
 
@@ -1854,7 +1855,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier greaterThan(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier greaterThan(IERXKey<T> value) {
 		return ERXQ.greaterThan(this, value);
 	}
 
@@ -1878,7 +1879,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier gt(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier gt(IERXKey<T> value) {
 		return ERXQ.greaterThan(this, value);
 	}
 
@@ -1902,7 +1903,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier lessThan(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier lessThan(IERXKey<T> value) {
 		return ERXQ.lessThan(this, value);
 	}
 	
@@ -1926,7 +1927,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier lt(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier lt(IERXKey<T> value) {
 		return ERXQ.lessThan(this, value);
 	}
 
@@ -1950,7 +1951,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier greaterThanOrEqualTo(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier greaterThanOrEqualTo(IERXKey<T> value) {
 		return ERXQ.greaterThanOrEqualTo(this, value);
 	}
 	
@@ -1974,7 +1975,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier gte(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier gte(IERXKey<T> value) {
 		return ERXQ.greaterThanOrEqualTo(this, value);
 	}
 
@@ -1998,7 +1999,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier lessThanOrEqualTo(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier lessThanOrEqualTo(IERXKey<T> value) {
 		return ERXQ.lessThanOrEqualTo(this, value);
 	}
 
@@ -2022,7 +2023,7 @@ public class ERXKey<T> {
 	 *            the value
 	 * @return an ERXKeyComparisonQualifier
 	 */
-	public ERXKeyComparisonQualifier lte(ERXKey<T> value) {
+	public ERXKeyComparisonQualifier lte(IERXKey<T> value) {
 		return ERXQ.lessThanOrEqualTo(this, value);
 	}
 
@@ -2153,7 +2154,7 @@ public class ERXKey<T> {
 	 * @return an ERXKeyComparisonQualifier
 	 */
 	@SuppressWarnings("unchecked")
-	public ERXKeyComparisonQualifier before(ERXKey<? extends NSTimestamp> when) {
+	public ERXKeyComparisonQualifier before(IERXKey<? extends NSTimestamp> when) {
 		return ERXQ.lessThan((ERXKey)this, when);
 	}
 	
@@ -2178,7 +2179,7 @@ public class ERXKey<T> {
 	 * @return an ERXKeyComparisonQualifier
 	 */
 	@SuppressWarnings("unchecked")
-	public ERXKeyComparisonQualifier after(ERXKey<? extends NSTimestamp> when) {
+	public ERXKeyComparisonQualifier after(IERXKey<? extends NSTimestamp> when) {
 		return ERXQ.greaterThan((ERXKey)this, when);
 	}
 
@@ -2548,7 +2549,7 @@ public class ERXKey<T> {
 	 *            the key to append to this keypath
 	 * @return the new appended key
 	 */
-	public <U> ERXKey<U> append(ERXKey<U> key) {
+	public <U> ERXKey<U> append(IERXKey<U> key) {
 		return append(key.key());
 	}
 
@@ -2561,7 +2562,7 @@ public class ERXKey<T> {
 	 *            the key to append to this keypath
 	 * @return the new appended key
 	 */
-	public <U> ERXKey<U> dot(ERXKey<U> key) {
+	public <U> ERXKey<U> dot(IERXKey<U> key) {
 		return append(key);
 	}
 
@@ -2588,7 +2589,7 @@ public class ERXKey<T> {
 	 *            the key to append to this keypath
 	 * @return the new appended key
 	 */
-	public <U> ERXKey<NSArray<U>> appendAsArray(ERXKey<U> key) {
+	public <U> ERXKey<NSArray<U>> appendAsArray(IERXKey<U> key) {
 		return append(key.key());
 	}
 
@@ -2601,7 +2602,7 @@ public class ERXKey<T> {
 	 *            the key to append to this keypath
 	 * @return the new append to this keypath
 	 */
-	public <U> ERXKey<NSArray<U>> dotArray(ERXKey<U> key) {
+	public <U> ERXKey<NSArray<U>> dotArray(IERXKey<U> key) {
 		return append(key.key());
 	}
 

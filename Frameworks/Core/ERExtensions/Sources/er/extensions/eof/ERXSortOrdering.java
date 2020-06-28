@@ -61,7 +61,7 @@ public class ERXSortOrdering extends EOSortOrdering {
 	 * @param selector
 	 *            the sort selector
 	 */
-	public ERXSortOrdering(ERXKey key, NSSelector selector) {
+	public ERXSortOrdering(IERXKey key, NSSelector selector) {
 		this(key.key(), selector);
 	}
 
@@ -231,7 +231,7 @@ public class ERXSortOrdering extends EOSortOrdering {
 	 *            the sort selector
 	 * @return a new ERXSortOrdering
 	 */
-	public static ERXSortOrdering sortOrderingWithKey(ERXKey key, NSSelector selector) {
+	public static ERXSortOrdering sortOrderingWithKey(IERXKey key, NSSelector selector) {
 		return new ERXSortOrdering(key, selector);
 	}
 

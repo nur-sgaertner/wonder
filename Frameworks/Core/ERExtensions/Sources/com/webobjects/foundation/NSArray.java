@@ -16,6 +16,7 @@ import java.util.ListIterator;
 import java.util.Vector;
 
 import er.extensions.eof.ERXKey;
+import er.extensions.eof.IERXKey;
 import er.extensions.foundation.ERXArrayUtilities;
 
 /**
@@ -1087,7 +1088,7 @@ public class NSArray<E> implements Cloneable, Serializable, NSCoding, NSKeyValue
 	 * @return an {@code NSArray} of {@code T} objects.
 	 * @author David Avendasora
 	 */
-	public <T> NSArray<T> valueForKeyPath(ERXKey<T> erxKey) {
+	public <T> NSArray<T> valueForKeyPath(IERXKey<T> erxKey) {
 		return (NSArray<T>) valueForKeyPath(erxKey.key());
 	}
 

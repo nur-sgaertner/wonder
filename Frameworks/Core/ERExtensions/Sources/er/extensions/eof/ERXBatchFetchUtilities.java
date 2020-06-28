@@ -45,9 +45,9 @@ public class ERXBatchFetchUtilities {
      * @param sourceObjects the array of source object to fault keypaths on.
      * @param keys the array of ERXKeys to fault
 	 */
-    public static void batchFetch(NSArray<? extends EOEnterpriseObject> sourceObjects, ERXKey<?>... keys) {
+    public static void batchFetch(NSArray<? extends EOEnterpriseObject> sourceObjects, IERXKey<?>... keys) {
     	NSMutableArray<String> keypaths = new NSMutableArray<>();
-    	for (ERXKey<?> key : keys) {
+    	for (IERXKey<?> key : keys) {
     		keypaths.addObject(key.key());
     	}
     	ERXBatchFetchUtilities.batchFetch(sourceObjects, keypaths, true);
