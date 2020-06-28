@@ -1,6 +1,6 @@
 package er.extensions.eof;
 
-import java.util.Enumeration;
+import java.util.Collection;
 import java.util.NoSuchElementException;
 
 import com.webobjects.eoaccess.EOEntity;
@@ -687,14 +687,12 @@ public class ERXQ {
 	 *            the values
 	 * @return an EOQualifier
 	 */
-	public static ERXOrQualifier in(String key, NSArray<?> values) {
-		if(values.count() == 0) {
+	public static ERXOrQualifier in(String key, Collection<?> values) {
+		if(values.size() == 0) {
 			return new ERXOrQualifier(new NSArray<>(new ERXFalseQualifier()));
 		}
 		NSMutableArray<EOQualifier> qualifiers = new NSMutableArray<>();
-		Enumeration valuesEnum = values.objectEnumerator();
-		while (valuesEnum.hasMoreElements()) {
-			Object value = valuesEnum.nextElement();
+		for (Object value : values) {
 			qualifiers.addObject(ERXQ.equals(key, value));
 		}
 		return new ERXOrQualifier(qualifiers);
@@ -710,11 +708,9 @@ public class ERXQ {
 	 *            the values
 	 * @return an EOQualifier
 	 */
-	public static ERXAndQualifier notIn(String key, NSArray values) {
+	public static ERXAndQualifier notIn(String key, Collection<?> values) {
 		NSMutableArray<EOQualifier> qualifiers = new NSMutableArray<>();
-		Enumeration valuesEnum = values.objectEnumerator();
-		while (valuesEnum.hasMoreElements()) {
-			Object value = valuesEnum.nextElement();
+		for (Object value : values) {
 			qualifiers.addObject(ERXQ.notEquals(key, value));
 		}
 		return new ERXAndQualifier(qualifiers);

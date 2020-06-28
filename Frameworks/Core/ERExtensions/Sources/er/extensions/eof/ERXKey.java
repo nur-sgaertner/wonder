@@ -1,6 +1,7 @@
 package er.extensions.eof;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Locale;
 
 import com.webobjects.eoaccess.EOAttribute;
@@ -2117,7 +2118,7 @@ public class ERXKey<T> implements IERXKey<T> {
 	 *            the values
 	 * @return an ERXOrQualifier
 	 */
-	public ERXOrQualifier in(NSArray<T> values) {
+	public ERXOrQualifier in(Collection<T> values) {
 		return ERXQ.in(_key, values);
 	}
 
@@ -2129,7 +2130,7 @@ public class ERXKey<T> implements IERXKey<T> {
 	 *            the values
 	 * @return an ERXAndQualifier
 	 */
-	public ERXAndQualifier notIn(NSArray<T> values) {
+	public ERXAndQualifier notIn(Collection<T> values) {
 		return ERXQ.notIn(_key, values);
 	}
 
