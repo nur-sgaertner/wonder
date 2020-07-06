@@ -30,7 +30,6 @@ import com.webobjects.eocontrol.EOFetchSpecification;
 import com.webobjects.eocontrol.EOKeyValueArchiver;
 import com.webobjects.eocontrol.EOKeyValueArchiving;
 import com.webobjects.eocontrol.EOKeyValueCodingAdditions;
-import com.webobjects.eocontrol.EOKeyValueQualifier;
 import com.webobjects.eocontrol.EOKeyValueUnarchiver;
 import com.webobjects.eocontrol.EOObjectStoreCoordinator;
 import com.webobjects.eocontrol.EOQualifier;
@@ -45,9 +44,9 @@ import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableSet;
 
 import er.extensions.eof.ERXKey;
+import er.extensions.eof.IERXKey;
 import er.extensions.foundation.ERXArrayUtilities;
 import er.extensions.foundation.ERXStringUtilities;
-import er.extensions.qualifiers.ERXPrefixQualifierTraversal;
 
 /**
  * A qualifier that qualifies using an EXISTS clause.
@@ -99,7 +98,11 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
 	 * @param subqualifier sub-qualifier
 	 */
 	public ERXExistsQualifier(EOQualifier subqualifier) {
-		this(subqualifier, null);
+		this(subqualifier, (String) null);
+	}
+
+	public ERXExistsQualifier(EOQualifier subqualifier, IERXKey baseKeyPath) {
+		this(subqualifier, baseKeyPath.key());
 	}
 
     /**
@@ -130,6 +133,10 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
 			this.subqualifier = subqualifier;
 			this.baseKeyPath = baseKeyPath;
 		}
+	}
+
+	public ERXExistsQualifier(EOQualifier subqualifier, IERXKey baseKeyPath, boolean usesInQualInstead) {
+		this(subqualifier, baseKeyPath.key(), usesInQualInstead);
 	}
 
     /**
