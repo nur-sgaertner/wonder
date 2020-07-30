@@ -218,6 +218,8 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
      */
     public static class ExistsQualifierSQLGenerationSupport extends EOQualifierSQLGeneration.Support {
 
+        private static final ThreadLocal<Integer> EXISTS_ALIAS_INDEX = ThreadLocal.withInitial(() -> 0);
+
         /**
          * Public constructor
          */
@@ -237,6 +239,11 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
             if (null == qualifier || null == expression) {
                 return null;
             }
+
+            int currentExistsAliasIndex = EXISTS_ALIAS_INDEX.get();
+            String existsAlias = EXISTS_ALIAS + "_" + (char) ('a' + currentExistsAliasIndex) + "_";
+            try {
+                EXISTS_ALIAS_INDEX.set(currentExistsAliasIndex + 1);
 
             ERXExistsQualifier existsQualifier = (ERXExistsQualifier)qualifier;
             EOQualifier subqualifier = existsQualifier.subqualifier();
@@ -284,11 +291,11 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
                 sqlStringForAttributeNamedInExpression(baseKeyPath, expression);
                 destTableAlias = (String)expression.aliasesByRelationshipPath().valueForKey(baseKeyPath);
                 if (null == destTableAlias) {
-                    destTableAlias = EXISTS_ALIAS + (expression.aliasesByRelationshipPath().count()); // The first entry = "t0".
+                    destTableAlias = existsAlias + (expression.aliasesByRelationshipPath().count()); // The first entry = "t0".
                     expression.aliasesByRelationshipPath().takeValueForKey(destTableAlias, baseKeyPath);
                 }
             } else { // The exists clause is applied to the base table.
-                destTableAlias = EXISTS_ALIAS + expression.aliasesByRelationshipPath().count(); // Probably "t1"
+                destTableAlias = existsAlias + expression.aliasesByRelationshipPath().count(); // Probably "t1"
             }
 
             String srcEntityForeignKey = null;
@@ -332,7 +339,7 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
 
     		Matcher matcher = PATTERN.matcher(subExprStr);
     		if (matcher.find()) {
-    			subExprStr = matcher.replaceAll("$1" + EXISTS_ALIAS + "$3$4");
+    			subExprStr = matcher.replaceAll("$1" + existsAlias + "$3$4");
     		}
     		
             StringBuffer sb = new StringBuffer();
@@ -347,7 +354,7 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
             if ( ! existsQualifier.usesInQualInstead()) {
             	String examineBuffer = sb.toString();
             	examineBuffer = examineBuffer.substring(0, examineBuffer.length() - 1);
-            	if (examineBuffer.endsWith(EXISTS_ALIAS)) {
+            	if (examineBuffer.endsWith(existsAlias)) {
             		// (AR) If we end with a table alias we must add a "where" clause
                     sb.append(" WHERE ");
             	} else {
@@ -355,12 +362,16 @@ public class ERXExistsQualifier extends EOQualifier implements Cloneable, NSCodi
                     sb.append(" AND ");
             	}
             	
-                sb.append(EXISTS_ALIAS + "0" + destEntityForeignKey);
+                sb.append(existsAlias + "0" + destEntityForeignKey);
                 sb.append(" = ");
                 sb.append(StringUtils.replaceOnce(srcEntityForeignKey, "t0.", sourceTableAlias + "."));
             }
             sb.append(" ) ");
             return sb.toString();
+
+            } finally {
+                EXISTS_ALIAS_INDEX.set(currentExistsAliasIndex);
+            }
         }
 
         /**
