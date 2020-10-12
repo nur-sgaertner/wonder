@@ -199,14 +199,31 @@ public class ERXSortOrdering extends EOSortOrdering {
 	public boolean equals(Object obj) {
 		if (obj instanceof ERXSortOrdering) {
 			ERXSortOrdering other = (ERXSortOrdering)obj;
-			return Objects.equals(key(), other.key()) && Objects.equals(selector(), other.selector());
+			return Objects.equals(key(), other.key()) && Objects.equals(selector(), other.selector()) && Objects.equals(nullHandling(), other.nullHandling());
 		}
 		return false;
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(key()).append(selector()).toHashCode();
+		return new HashCodeBuilder().append(key()).append(selector()).append(nullHandling()).toHashCode();
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("<");
+		sb.append(getClass().toString());
+		sb.append("(");
+		sb.append(key());
+		sb.append(" ");
+		sb.append(selector().name());
+		if (nullHandling() != null) {
+			sb.append(" nulls=");
+			sb.append(nullHandling().name());
+		}
+		sb.append(")>");
+		return sb.toString();
 	}
 
 	/**
