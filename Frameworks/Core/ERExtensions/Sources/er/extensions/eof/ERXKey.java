@@ -2698,6 +2698,9 @@ public class ERXKey<T> implements IERXKey<T> {
 		String fullKeyPath = append(keyPathToChain).key();
 		NSSelector selector = sortOrder.selector();
 		ERXSortOrdering prefixedSortOrdering = ERXS.sortOrder(fullKeyPath, selector);
+		if (sortOrder instanceof ERXSortOrdering) {
+			prefixedSortOrdering.setNullHandling(((ERXSortOrdering) sortOrder).nullHandling());
+		}
 		return prefixedSortOrdering;
 	}
 
