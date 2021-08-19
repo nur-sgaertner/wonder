@@ -343,11 +343,13 @@ public class ERMailSender implements Runnable {
 		log.debug("ERMailSender thread has been started");
 		try {
 			while (true) {
+				log.trace("Waiting for new mails");
 				synchronized (_messages) {
 					while (_messages.empty()) {
 						_messages.wait(_milliSecondsWaitRunLoop);
 					}
 				}
+				log.trace("Found {} message(s) for sending", _messages.size());
 
 				// If there are still messages pending ...
 				if (!_messages.empty()) {
@@ -357,15 +359,20 @@ public class ERMailSender implements Runnable {
 						while (!_messages.empty()) {
 							ERMessage message = _messages.pop();
 		                    String contextString = message.contextString();
+		                    log.trace("Acount to send message {} with contextString {}", message, contextString);
 		                    String smtpProtocol = ERJavaMail.sharedInstance().smtpProtocolForContext(contextString);
 		                    if (contextString == null) {
 		                        contextString = "___DEFAULT___";
 		                    }
 		                    Transport transport = transports.get(contextString);
 		                    if (transport == null) {
+		                        log.trace("Creating new session");
 		                        Session session = ERJavaMail.sharedInstance().newSessionForMessage(message);
+		                        log.trace("Session {} has been created", session);
 		                    	try {
+		                    		log.trace("Creating transport");
 		                    		transport = _connectedTransportForSession(session, smtpProtocol, true);
+		                    		log.trace("Transport {} has been created", transport);
 		                    	}
 		                    	catch (MessagingException e) {
 			        				message._deliveryFailed(e);
@@ -375,7 +382,9 @@ public class ERMailSender implements Runnable {
 		                    }
 		                    try {
 		                        if (!transport.isConnected()) {
+		                            log.trace("Connecting transport");
 		                            transport.connect();
+		                            log.trace("Transport has been connected");
 		                        }
 		                    } catch (MessagingException e) {
 		                        // Notify error in logs
@@ -387,6 +396,7 @@ public class ERMailSender implements Runnable {
 		                        throw new RuntimeException ("Unable to connect transport.", e);
 		                    }
 							try {
+								log.trace("About to send message now");
 								_sendMessageNow(message, transport);
 							} catch(SendFailedException ex) {
 								log.error("Can't send message: {}", message, ex);
