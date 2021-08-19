@@ -340,6 +340,7 @@ public class ERMailSender implements Runnable {
 	 * </div>
 	 */
 	public void run() {
+		log.debug("ERMailSender thread has been started");
 		try {
 			while (true) {
 				synchronized (_messages) {
@@ -431,6 +432,9 @@ public class ERMailSender implements Runnable {
 		catch (InterruptedException e) {
 			log.warn("ERMailSender thread has been interrupted.");
 			//return;
+		}
+		catch (Exception e) {
+			log.error("Unhandled exception in ERMailSender thread", e);
 		}
 		finally {
 			// assures the thread will get restarted next time around.
