@@ -2,7 +2,6 @@ package er.extensions.logging;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
-import org.apache.log4j.spi.LoggingEvent;
 
 /**
  * Adds ANSI color escapes to logged lines depending on their log {@link Level}.
@@ -36,16 +35,16 @@ public class ERXColoredConsoleAppender extends ERXConsoleAppender {
 	public static final String DEBUG_COLOR = ANSI_CSI + ANSI_FOREGROUND_CYAN + ANSI_SGR;
 	public static final String TRACE_COLOR = ANSI_CSI + ANSI_FOREGROUND_BLUE + ANSI_SGR;
 
-	@Override
-	protected void subAppend(LoggingEvent event) {
-		this.qw.write(getColor(event.getLevel()));
-		subAppendInner(event);
-		this.qw.write(ANSI_SGR_SGR_RESET);
-
-		if (immediateFlush) {
-			qw.flush();
-		}
-	}
+//	@Override
+//	protected void subAppend(LoggingEvent event) {
+//		this.qw.write(getColor(event.getLevel()));
+//		subAppendInner(event);
+//		this.qw.write(ANSI_SGR_SGR_RESET);
+//
+//		if (immediateFlush) {
+//			qw.flush();
+//		}
+//	}
 
 	public static String getColor(Level level) {
 		switch (level.toInt()) {

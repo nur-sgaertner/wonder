@@ -81,7 +81,8 @@ public class ERXPatternLayout extends PatternLayout {
 	 * Default constructor. Uses the default conversion pattern.
 	 */
 	public ERXPatternLayout() {
-		this(PatternLayout.DEFAULT_CONVERSION_PATTERN);
+//		this(PatternLayout.DEFAULT_CONVERSION_PATTERN);
+		this("%m%n");
 	}
 
 	/**
@@ -106,10 +107,10 @@ public class ERXPatternLayout extends PatternLayout {
 	 *            to create the pattern parser for
 	 * @return an ERXPatternParser for the given pattern
 	 */
-	@Override
-	public PatternParser createPatternParser(String pattern) {
-		return new ERXPatternParser(pattern == null ? PatternLayout.DEFAULT_CONVERSION_PATTERN : pattern);
-	}
+//	@Override
+//	public PatternParser createPatternParser(String pattern) {
+//		return new ERXPatternParser(pattern == null ? PatternLayout.DEFAULT_CONVERSION_PATTERN : pattern);
+//	}
 }
 
 /**

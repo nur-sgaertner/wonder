@@ -453,11 +453,12 @@ public class ERXLog4JConfiguration extends WOComponent {
     
     //* this assumes you use ERXPatternLayout
     public String conversionPattern() {
-        return ERXPatternLayout.instance().getConversionPattern();
+//        return ERXPatternLayout.instance().getConversionPattern();
+    	return null;
     }
 
     public void setConversionPattern(String newPattern) {
-        ERXPatternLayout.instance().setConversionPattern(newPattern);
+//        ERXPatternLayout.instance().setConversionPattern(newPattern);
     }
     
     public WOComponent updateConversionPattern() { return null; }

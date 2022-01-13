@@ -41,6 +41,7 @@ import org.apache.commons.lang3.CharEncoding;
 import org.apache.log4j.Appender;
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Logger;
+import org.apache.logging.log4j.core.config.ConfigurationFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -113,6 +114,7 @@ import er.extensions.foundation.ERXRuntimeUtilities;
 import er.extensions.foundation.ERXThreadStorage;
 import er.extensions.foundation.ERXTimestampUtilities;
 import er.extensions.localization.ERXLocalizer;
+import er.extensions.logging.ERXLog4jConfigurationFactory;
 import er.extensions.migration.ERXMigrator;
 import er.extensions.statistics.ERXStats;
 
@@ -158,6 +160,11 @@ import er.extensions.statistics.ERXStats;
  * @property er.extensions.ERXApplication.allowMultipleDevInstances
  */
 public abstract class ERXApplication extends ERXAjaxApplication implements ERXGracefulShutdown.GracefulApplication {
+	static {
+		// must happen before the first logger is created ...
+		ConfigurationFactory.setConfigurationFactory(new ERXLog4jConfigurationFactory());
+	}
+
 	/** logging support */
 	public static final Logger log = Logger.getLogger(ERXApplication.class);
 
