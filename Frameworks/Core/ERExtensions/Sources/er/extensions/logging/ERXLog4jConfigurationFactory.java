@@ -1,5 +1,6 @@
 package er.extensions.logging;
 
+import java.lang.reflect.Field;
 import java.net.URI;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.Filter.Result;
 import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.AbstractManager;
 import org.apache.logging.log4j.core.appender.ConsoleAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.ConfigurationFactory;
@@ -183,6 +185,23 @@ public class ERXLog4jConfigurationFactory extends ConfigurationFactory {
 	@Override
 	protected String[] getSupportedTypes() {
 		return new String[] { "*" };
+	}
+
+	@SuppressWarnings("resource")
+	public static void resetConsoleAppenders() {
+		try {
+			Class<AbstractManager> abstractManagerClass = AbstractManager.class;
+			Field field = abstractManagerClass.getDeclaredField("MAP");
+			field.setAccessible(true);
+			Map<String, AbstractManager> value = (Map<String, AbstractManager>) field.get(null);
+			List<String> keys = value.keySet().stream().filter(k -> k.startsWith(ConsoleAppender.Target.SYSTEM_OUT.name() + ".")).collect(Collectors.toList());
+			for (String key : keys) {
+				value.remove(key);
+			}
+		} catch (Exception e) {
+			StatusLogger.getLogger().error("Error resetting console appenders", e);
+		}
+		
 	}
 
 }
