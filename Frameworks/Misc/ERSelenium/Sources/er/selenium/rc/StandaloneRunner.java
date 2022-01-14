@@ -2,11 +2,7 @@ package er.selenium.rc;
 
 import java.io.File;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
-import org.apache.log4j.varia.LevelRangeFilter;
 
 import com.webobjects.foundation.NSArray;
 
@@ -27,24 +23,24 @@ public class StandaloneRunner {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-        Logger root = Logger.getRootLogger();
-        ConsoleAppender appender = new ConsoleAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"));
-        appender.setTarget("System.err");
-        LevelRangeFilter filter = new LevelRangeFilter();
-        filter.setLevelMin(Level.DEBUG);
-        filter.setLevelMax(Level.DEBUG);
-        appender.addFilter(filter);
-        appender.activateOptions();
-        root.addAppender(appender);
-        
-        appender = new ConsoleAppender(new PatternLayout());
-        appender.setTarget("System.out");
-        filter = new LevelRangeFilter();
-        filter.setLevelMin(Level.INFO);
-        filter.setLevelMax(Level.FATAL);
-        appender.addFilter(filter);
-        appender.activateOptions();
-        root.addAppender(appender);
+		//        Logger root = Logger.getRootLogger();
+		//        ConsoleAppender appender = new ConsoleAppender(new PatternLayout("%r [%t] %p %c %x - %m%n"));
+		//        appender.setTarget("System.err");
+		//        LevelRangeFilter filter = new LevelRangeFilter();
+		//        filter.setLevelMin(Level.DEBUG);
+		//        filter.setLevelMax(Level.DEBUG);
+		//        appender.addFilter(filter);
+		//        appender.activateOptions();
+		//        root.addAppender(appender);
+		//        
+		//        appender = new ConsoleAppender(new PatternLayout());
+		//        appender.setTarget("System.out");
+		//        filter = new LevelRangeFilter();
+		//        filter.setLevelMin(Level.INFO);
+		//        filter.setLevelMax(Level.FATAL);
+		//        appender.addFilter(filter);
+		//        appender.activateOptions();
+		//        root.addAppender(appender);
 
 		ERSelenium.registerImportersExporters();
 		
