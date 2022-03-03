@@ -290,7 +290,9 @@ public class ERXMigrator {
 						EOEntity parentEntity = entity.parentEntity();
 						if (parentEntity != null && !parentEntity.model().equals(model)) {
 							EOModel parentModel = parentEntity.model();
-							_buildDependenciesForModel(parentModel, LATEST_VERSION, versions, migrations, skipModelNames);
+							if (!skipModelNames.contains(parentModel.name())) {
+								_buildDependenciesForModel(parentModel, LATEST_VERSION, versions, migrations, skipModelNames);
+							}
 						}
 						Enumeration relationshipsEnum = entity.relationships().objectEnumerator();
 						while (relationshipsEnum.hasMoreElements()) {
@@ -298,7 +300,9 @@ public class ERXMigrator {
 							EOEntity destinationEntity = relationship.destinationEntity();
 							if (destinationEntity != null && !destinationEntity.model().equals(model)) {
 								EOModel destinationModel = destinationEntity.model();
-								_buildDependenciesForModel(destinationModel, LATEST_VERSION, versions, migrations, skipModelNames);
+								if (!skipModelNames.contains(destinationModel.name())) {
+									_buildDependenciesForModel(destinationModel, LATEST_VERSION, versions, migrations, skipModelNames);
+								}
 							}
 						}
 					}
