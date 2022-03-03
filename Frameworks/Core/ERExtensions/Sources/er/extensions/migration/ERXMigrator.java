@@ -354,15 +354,18 @@ public class ERXMigrator {
 		}
 
 		if (migratorVersion.intValue() != ERXMigrator.LATEST_VERSION) {
+			boolean checkForVendorSpecificClass = ERXProperties.booleanForKeyWithDefault("er.migration.checkForVendorSpecificClass", true);
 			boolean done = false;
 			for (int versionNum = migratorVersion.intValue() + 1; !done && versionNum <= migrateToVersion; versionNum++) {
 				String migrationClassPrefix = ERXProperties.stringForKeyWithDefault(modelName + ".MigrationClassPrefix", modelName).trim();
 				String erMigrationClassName = migrationClassPrefix + versionNum;
-				String vendorMigrationClassName = migrationClassPrefix + ERXJDBCUtilities.databaseProductName(model) + versionNum;
+				String vendorMigrationClassName = checkForVendorSpecificClass
+						? migrationClassPrefix + ERXJDBCUtilities.databaseProductName(model) + versionNum
+						: null;
 				Class erMigrationClass;
 				log.debug("Looking for migration '{}' ...", erMigrationClassName);
 				erMigrationClass = _NSUtilities.classWithName(erMigrationClassName);
-				if (erMigrationClass == null) {
+				if (erMigrationClass == null && vendorMigrationClassName != null) {
 					log.debug("Looking for vendor-specific migration '{}' ...", vendorMigrationClassName);
 					erMigrationClass = _NSUtilities.classWithName(vendorMigrationClassName);
 				}
@@ -384,7 +387,10 @@ public class ERXMigrator {
 				}
 				else {
 					done = true;
-					log.debug("  Migration {} and/or {} do not exist.", erMigrationClassName, vendorMigrationClassName);
+					if (log.isDebugEnabled()) {
+						String checkedNames = erMigrationClassName + (vendorMigrationClassName != null ? " and/or " + vendorMigrationClassName : "");
+						log.debug("  Migration {} do not exist.", checkedNames);
+					}
 					versions.put(modelName, Integer.valueOf(ERXMigrator.LATEST_VERSION));
 				}
 			}
