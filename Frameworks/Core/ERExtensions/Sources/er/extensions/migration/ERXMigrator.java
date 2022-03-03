@@ -358,6 +358,8 @@ public class ERXMigrator {
 		}
 
 		if (migratorVersion.intValue() != ERXMigrator.LATEST_VERSION) {
+			log.info("Searching for {} migrations, starting with {}", modelName, migratorVersion + 1);
+
 			boolean checkForVendorSpecificClass = ERXProperties.booleanForKeyWithDefault("er.migration.checkForVendorSpecificClass", true);
 			boolean done = false;
 			for (int versionNum = migratorVersion.intValue() + 1; !done && versionNum <= migrateToVersion; versionNum++) {
