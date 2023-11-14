@@ -3,6 +3,7 @@
  */
 package com.webobjects.eoaccess;
 
+import java.util.Iterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,6 +13,7 @@ import com.webobjects.foundation.NSArray;
 import com.webobjects.foundation.NSDictionary;
 import com.webobjects.foundation.NSMutableArray;
 import com.webobjects.foundation.NSMutableDictionary;
+import com.webobjects.foundation._NSArrayUtilities;
 
 import er.extensions.eof.ERXEOAccessUtilities;
 
@@ -154,6 +156,69 @@ public class ERXEntity extends EOEntity {
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. Previously we sometimes get an
+	 * NPE at EOEntity._globalIDForRowIsFinal(EOEntity.java:2868).
+	 */
+	@Override
+	public NSArray<String> primaryKeyAttributeNames() {
+		synchronized (EOModel._EOGlobalModelLock) {
+			NSArray<String> result = this._primaryKeyAttributeNames;
+			if (result == null) {
+				this._primaryKeyAttributeNames = result = _NSArrayUtilities.resultsOfPerformingSelector(this.primaryKeyAttributes(), _NSArrayUtilities._nameSelector);
+			}
+			return result;
+		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. Previously we sometimes get an
+	 * NPE at EOCustomObject.snapshot(EOCustomObject.java:509).
+	 */
+	@Override
+	NSArray<String> classPropertyToOneRelationshipNames() {
+		synchronized (EOModel._EOGlobalModelLock) {
+			NSArray<String> result = this._classPropertyToOneRelationshipNames;
+			if (result == null) {
+				NSMutableArray<String> list = new NSMutableArray();
+				Iterator i$ = this.classProperties().iterator();
+				while (i$.hasNext()) {
+					EOProperty property = (EOProperty) i$.next();
+					if (property instanceof EORelationship && !((EORelationship) property).isToMany()) {
+						list.add(property.name());
+					}
+				}
+
+				this._classPropertyToOneRelationshipNames = result = list;
+			}
+			return result;
+		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. See
+	 * classPropertyToOneRelationshipNames.
+	 */
+	@Override
+	NSArray<String> classPropertyToManyRelationshipNames() {
+		synchronized (EOModel._EOGlobalModelLock) {
+			NSMutableArray<String> result = this._classPropertyToManyRelationshipNames;
+			if (result == null) {
+				NSMutableArray<String> list = new NSMutableArray();
+				Iterator i$ = this.classProperties().iterator();
+				while (i$.hasNext()) {
+					EOProperty property = (EOProperty) i$.next();
+					if (property instanceof EORelationship && ((EORelationship) property).isToMany()) {
+						list.add(property.name());
+					}
+				}
+
+				this._classPropertyToManyRelationshipNames = result = list;
+			}
+			return result;
 		}
 	}
 }
