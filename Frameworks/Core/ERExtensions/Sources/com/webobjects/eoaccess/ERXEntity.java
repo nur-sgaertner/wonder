@@ -120,7 +120,7 @@ public class ERXEntity extends EOEntity {
 
 	public NSArray<EOAttribute> classAttributes() {
 		NSMutableArray<EOAttribute> found = new NSMutableArray<>();
-		for (String name : (NSArray<String>)this.classPropertyNames()) {
+		for (String name : this.classPropertyNames()) {
 			if (this.attributeNamed(name) != null)
 				found.add(this.attributeNamed(name));
 		}
@@ -129,7 +129,7 @@ public class ERXEntity extends EOEntity {
 
 	public NSArray<EORelationship> classRelationships() {
                 NSMutableArray<EORelationship> found = new NSMutableArray<>();
-		for (String name : (NSArray<String>)this.classPropertyNames()) {
+		for (String name : this.classPropertyNames()) {
 			if (this.relationshipNamed(name) != null)
 				found.add(this.relationshipNamed(name));
 		}
@@ -220,5 +220,56 @@ public class ERXEntity extends EOEntity {
 			}
 			return result;
 		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. Previously we sometimes get an
+	 * NPE at EODatabaseContext.databaseOperationForObject(EODatabaseContext.java:4810).
+	 */
+	public NSArray<String> classPropertyNames() {
+		synchronized (EOModel._EOGlobalModelLock) {
+			NSArray<String> result = this._classPropertyNames;
+			if (result == null) {
+				result = _NSArrayUtilities.resultsOfPerformingSelector(classProperties(), _NSArrayUtilities._nameSelector);
+				this._classPropertyNames = result;
+			}
+			return result;
+		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. Previously we sometimes get an
+	 * NPE at EODatabaseContext.databaseOperationForObject(EODatabaseContext.java:4819).
+	 */
+	NSArray<String> dbSnapshotKeys() {
+		synchronized (EOModel._EOGlobalModelLock) {
+			NSMutableArray<String> result = this._dbSnapshotKeys;
+			if (result == null) {
+				NSArray<EOAttribute> atts = _attributesToFetch();
+				int cnt = atts.count();
+				result = new NSMutableArray(cnt);
+				for (int i = cnt - 1; i >= 0; i--) {
+					EOAttribute att = atts.objectAtIndex(i);
+					result.addObject(att.name());
+				}
+				this._dbSnapshotKeys = result;
+			}
+			return result;
+		}
+	}
+
+	/**
+	 * Overridden to make this more thread-safe. Previously we sometimes get an
+	 * NPE at EOEntity._adaptorDictionaryInitializer(EOEntity.java:3338).
+	 */
+	protected NSArray<EOAttribute> _attributesToFetch() {
+		// try 10 times
+		for (int i = 0; i < 10; i++) {
+			NSArray<EOAttribute> result = super._attributesToFetch();
+			if (result != null) {
+				return result;
+			}
+		}
+		throw new IllegalStateException("Failed to determine _attributesToFetch for " + this);
 	}
 }
