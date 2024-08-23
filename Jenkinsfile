@@ -20,7 +20,7 @@ pipeline {
 
         stage('Build') {
             steps {
-                withAnt(installation: '1.9.5') {
+                withAnt(installation: '1.9.x') {
                     sh "ant -propertyfile ${env.WORKSPACE}/Root/wolips.properties -lib ${env.WORKSPACE}/Root/lib -Ddeployment.standalone=true clean docs-clean frameworks deployment.tools docs"
                 }
             }
