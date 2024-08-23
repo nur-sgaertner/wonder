@@ -3,6 +3,10 @@
 pipeline {
     agent { label 'linux && jdk11' }
 
+    tools {
+        jdk 'jdk11'
+    }
+
     stages {
         stage('SetupWorkspace') {
             steps {
