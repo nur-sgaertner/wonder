@@ -1,10 +1,10 @@
 @Library('NUREG') _
 
 pipeline {
-    agent { label 'linux && jdk11' }
+    agent { label 'linux && jdk21' }
 
     tools {
-        jdk 'jdk11'
+        jdk 'jdk21'
     }
 
     stages {
