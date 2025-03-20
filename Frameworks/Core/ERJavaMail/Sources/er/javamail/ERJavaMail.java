@@ -95,7 +95,7 @@ public class ERJavaMail extends ERXFrameworkPrincipal {
 	private static final String letDig = "[a-zA-Z0-9]";
 	private static final String letDigHyp = "[a-zA-Z0-9\\-]";
 	private static final String rfcLabel = letDig + "(" + letDigHyp + "{0,61}" + letDig + "){0,1}";
-	private static final String domain = rfcLabel + "((\\." + rfcLabel + ")*\\." + letter + "{2,6}){0,1}";
+	private static final String domain = rfcLabel + "((\\." + rfcLabel + ")*\\." + letter + "{2,61}){0,1}";
 	// Combined together, these form the allowed email regexp allowed by RFC 2822:
 	private static final String EMAIL_VALIDATION_PATTERN = "^" + localPart + "@" + domain + "$";
 
