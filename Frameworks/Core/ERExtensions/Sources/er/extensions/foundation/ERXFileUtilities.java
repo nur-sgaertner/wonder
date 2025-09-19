@@ -1285,10 +1285,8 @@ public class ERXFileUtilities {
                     }
                 }
             }
-        } catch(Exception e) {
-            e.printStackTrace();
         }
-        
+
         if (deleteOriginal) {
             if (f.canWrite() || forceDelete) {
                 if (!deleteDirectory(f)) {
@@ -1296,6 +1294,7 @@ public class ERXFileUtilities {
                 }
             }
         }
+
         return destination;
     }
 
