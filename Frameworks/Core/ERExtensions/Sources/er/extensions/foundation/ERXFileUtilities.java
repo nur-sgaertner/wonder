@@ -1249,13 +1249,13 @@ public class ERXFileUtilities {
      * @throws IOException if something goes wrong
      */
     public static File zipFile(File f, boolean absolutePaths, boolean deleteOriginal, boolean forceDelete, int level) throws IOException {
-        if (!f.exists()) {
-            throw new FileNotFoundException("file "+f+" does not exist");
-        }
-
         File destination = new File(f.getAbsolutePath() + ".zip");
         if (destination.exists()) {
             throw new IOException("zipped file "+destination+" exists");
+        }
+
+        if (!f.exists()) {
+            throw new FileNotFoundException("file "+f+" does not exist");
         }
 
         NSArray<File> files = f.isDirectory() ? arrayByAddingFilesInDirectory(f, true) : new NSArray<>(f);
