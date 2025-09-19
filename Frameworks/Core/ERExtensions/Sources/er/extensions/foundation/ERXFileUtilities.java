@@ -1271,6 +1271,16 @@ public class ERXFileUtilities {
      * Compresses a given File with zip.
      * @param f the file to zip, either a file or a directory
      * @param destination the zip file name
+     * @throws IOException if something goes wrong
+     */
+    public static void zipFile(File f, File destination) throws IOException {
+    	zipFile(f, destination, false, 9);
+    }
+
+    /**
+     * Compresses a given File with zip.
+     * @param f the file to zip, either a file or a directory
+     * @param destination the zip file name
      * @param absolutePaths if <code>true</code> then the files are added with absolute paths
      * @param level the compression level (0-9)
      * @throws IOException if something goes wrong
