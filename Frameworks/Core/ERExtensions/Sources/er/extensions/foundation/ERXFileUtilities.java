@@ -1254,6 +1254,28 @@ public class ERXFileUtilities {
             throw new IOException("zipped file "+destination+" exists");
         }
 
+        zipFile(f, destination, absolutePaths, level);
+
+        if (deleteOriginal) {
+            if (f.canWrite() || forceDelete) {
+                if (!deleteDirectory(f)) {
+                    deleteDirectory(f);
+                }
+            }
+        }
+
+        return destination;
+    }
+
+    /**
+     * Compresses a given File with zip.
+     * @param f the file to zip, either a file or a directory
+     * @param destination the zip file name
+     * @param absolutePaths if <code>true</code> then the files are added with absolute paths
+     * @param level the compression level (0-9)
+     * @throws IOException if something goes wrong
+     */
+    public static void zipFile(File f, File destination, boolean absolutePaths, int level) throws IOException {
         if (!f.exists()) {
             throw new FileNotFoundException("file "+f+" does not exist");
         }
@@ -1286,16 +1308,6 @@ public class ERXFileUtilities {
                 }
             }
         }
-
-        if (deleteOriginal) {
-            if (f.canWrite() || forceDelete) {
-                if (!deleteDirectory(f)) {
-                    deleteDirectory(f);
-                }
-            }
-        }
-
-        return destination;
     }
 
     /**
