@@ -1115,6 +1115,11 @@ public class EOAttribute extends EOProperty implements EOPropertyListEncoding, E
 			try {
 				if (conversionClass != null) {
 					convertedValue = conversionMethod.invoke(conversionClass,new Object[]{value});
+				} else if ("_enum".equals(prototypeName()) && value instanceof String) {
+					// Workaround required for enums, which are part of the PK. The value is then expected to
+					// have the enum type, but is actually a string. This only happens on faults or when using
+					// ERXEOGlobalIDUtilities.fetchObjectsWithGlobalIDs(ec, Arrays.asList(someEo.__globalID()), true))
+					convertedValue = value;
 				} else {
 					convertedValue = conversionMethod.invoke(value);
 				}
