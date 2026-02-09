@@ -207,7 +207,7 @@ public class EOAttribute extends EOProperty implements EOPropertyListEncoding, E
 		return null;
 	}
 
-	private void _parent_setIsEdited() {
+	protected void _parent_setIsEdited() {
 		if (_parent != null)
 			_parent._setIsEdited();
 		else if (_parentStoredProcedure != null)
@@ -228,7 +228,7 @@ public class EOAttribute extends EOProperty implements EOPropertyListEncoding, E
 		return null;
 	}
 
-	private void _parent_removeAttribute(EOAttribute att) {
+	protected void _parent_removeAttribute(EOAttribute att) {
 		if (_parent != null)
 			_parent.removeAttribute(att);
 	}
@@ -593,7 +593,7 @@ public class EOAttribute extends EOProperty implements EOPropertyListEncoding, E
 		}
 	}
 
-	private void _setReadOnly(boolean yn) {
+	protected void _setReadOnly(boolean yn) {
 		if (_flags_isReadOnly != yn) {
 			if (!yn && isDerived() && !isFlattened())
 				throw new IllegalArgumentException("Unable to remove read only on a derived not flattened attribute");
